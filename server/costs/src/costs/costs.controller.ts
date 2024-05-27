@@ -39,4 +39,16 @@ export class CostsController {
 
     return res.send(filteredCosts);
   }
+
+  @UseGuards(JWTGuard)
+  @Post()
+  @HttpCode(HttpStatus.OK)
+  async createCost(@Body() createCostDto: CreateCostDto, @Req() req) {
+    const user = await this.authService.getUserByTokenData(req.token);
+
+    return await this.costsService.create({
+      ...createCostDto,
+      userId: user._id as string,
+    });
+  }
 }
