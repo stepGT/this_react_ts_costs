@@ -51,4 +51,14 @@ export class CostsController {
       userId: user._id as string,
     });
   }
+
+  @UseGuards(JWTGuard)
+  @Patch(':id')
+  @HttpCode(HttpStatus.OK)
+  async updateCost(
+    @Body() updateCostDto: UpdateCostDto,
+    @Param('id') id: string,
+  ) {
+    return await this.costsService.update(updateCostDto, id);
+  }
 }
