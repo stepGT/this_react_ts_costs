@@ -61,4 +61,11 @@ export class CostsController {
   ) {
     return await this.costsService.update(updateCostDto, id);
   }
+
+  @UseGuards(JWTGuard)
+  @Delete(':id')
+  @HttpCode(HttpStatus.OK)
+  async deleteCost(@Param('id') id: string) {
+    return await this.costsService.delete(id);
+  }
 }
