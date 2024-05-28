@@ -39,4 +39,33 @@ export class CostsController {
 
     return res.send(filteredCosts);
   }
+
+  @UseGuards(JWTGuard)
+  @Post()
+  @HttpCode(HttpStatus.OK)
+  async createCost(@Body() createCostDto: CreateCostDto, @Req() req) {
+    const user = await this.authService.getUserByTokenData(req.token);
+
+    return await this.costsService.create({
+      ...createCostDto,
+      userId: user._id as string,
+    });
+  }
+
+  @UseGuards(JWTGuard)
+  @Patch(':id')
+  @HttpCode(HttpStatus.OK)
+  async updateCost(
+    @Body() updateCostDto: UpdateCostDto,
+    @Param('id') id: string,
+  ) {
+    return await this.costsService.update(updateCostDto, id);
+  }
+
+  @UseGuards(JWTGuard)
+  @Delete(':id')
+  @HttpCode(HttpStatus.OK)
+  async deleteCost(@Param('id') id: string) {
+    return await this.costsService.delete(id);
+  }
 }
