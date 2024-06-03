@@ -17,7 +17,7 @@ export const AuthPage = ({ type }: { type: 'login' | 'registration' }) => {
           <input type="password" className="form-control" />
         </label>
 
-        <button className="btn btn-primary auth-btn">currentAuthTitle</button>
+        <button className="btn btn-primary auth-btn">{ currentAuthTitle }</button>
       </form>
       {type === 'login' ? (
         <div>
