@@ -6,3 +6,8 @@
 export interface IAlertProps {
   props: IAlert;
 }
+
+export interface ISpinnerProps {
+  top: number;
+  left: number;
+}
