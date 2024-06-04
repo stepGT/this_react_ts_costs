@@ -17,7 +17,7 @@ const App = () => {
         <Routes>
           <Route
             path="/"
-            element={isLoggedIn ? <Navigate to="/costs" /> : <Navigate to="login" />}
+            element={isLoggedIn ? <Navigate to="/costs" /> : <Navigate to="/login" />}
           />
           <Route
             path="/login"
@@ -25,7 +25,7 @@ const App = () => {
           />
           <Route
             path="/registration"
-            element={isLoggedIn ? <Navigate to="/costs" /> : <Navigate to="login" />}
+            element={isLoggedIn ? <Navigate to="/costs" /> : <AuthPage type="registration" />}
           />
           <Route path="/costs" element={isLoggedIn ? <h1>COSTS</h1> : <Navigate to="/login" />} />
         </Routes>
