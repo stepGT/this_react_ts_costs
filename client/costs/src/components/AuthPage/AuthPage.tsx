@@ -1,9 +1,12 @@
 ﻿import { MutableRefObject, useRef, useState } from 'react';
-import { Link } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
 import './styles.css';
 import { AuthClient } from '../../API/authClient';
+import { setAlert } from '../../context/alert';
+import { Spinner } from '../Spinner/Spinner';
 
 export const AuthPage = ({ type }: { type: 'login' | 'registration' }) => {
+  const navigate = useNavigate();
   const [spinner, setSpinner] = useState(false);
   const usernameRef = useRef() as MutableRefObject<HTMLInputElement>;
   const passwordRef = useRef() as MutableRefObject<HTMLInputElement>;
@@ -13,6 +16,15 @@ export const AuthPage = ({ type }: { type: 'login' | 'registration' }) => {
     if (!username || !password) return;
 
     const result = await AuthClient.login(username, password);
+
+    if (!result) {
+      setSpinner(false);
+      return;
+    }
+
+    setSpinner(false);
+    navigate('/costs');
+    setAlert({ alertText: 'Вход выполнен', alertStatus: 'success' });
   };
 
   const handleRegistration = async (username: string, password: string) => {
@@ -20,23 +32,50 @@ export const AuthPage = ({ type }: { type: 'login' | 'registration' }) => {
     if (password.length < 4) return;
 
     const result = await AuthClient.registration(username, password);
+
+    if (!result) {
+      setSpinner(false);
+      return;
+    }
+
+    setSpinner(false);
+    navigate('/login');
+    setAlert({ alertText: 'Регистрация выполнена', alertStatus: 'success' });
+  };
+
+  const handleAuth = (event: React.FormEvent<HTMLFormElement>) => {
+    event.preventDefault();
+    setSpinner(true);
+
+    switch (type) {
+      case 'login':
+        handleLogin(usernameRef.current.value, passwordRef.current.value);
+        break;
+      case 'registration':
+        handleRegistration(usernameRef.current.value, passwordRef.current.value);
+        break;
+      default:
+        break;
+    }
   };
 
   return (
     <div className="container">
       <h1>{currentAuthTitle}</h1>
-      <form className="form-group">
+      <form onSubmit={handleAuth} className="form-group">
         <label className="auth-label">
           Введите имя пользователя
-          <input type="text" className="form-control" />
+          <input ref={usernameRef} type="text" className="form-control" />
         </label>
 
         <label className="auth-label">
           Введите пароль
-          <input type="password" className="form-control" />
+          <input ref={passwordRef} type="password" className="form-control" />
         </label>
 
-        <button className="btn btn-primary auth-btn">{currentAuthTitle}</button>
+        <button className="btn btn-primary auth-btn">
+          {spinner ? <Spinner top={5} left={20} /> : currentAuthTitle}
+        </button>
       </form>
       {type === 'login' ? (
         <div>
