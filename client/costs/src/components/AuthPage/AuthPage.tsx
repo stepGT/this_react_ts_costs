@@ -1,7 +1,11 @@
-﻿import { Link } from 'react-router-dom';
+﻿import { MutableRefObject, useRef, useState } from 'react';
+import { Link } from 'react-router-dom';
 import './styles.css';
 
 export const AuthPage = ({ type }: { type: 'login' | 'registration' }) => {
+  const [spinner, setSpinner] = useState(false);
+  const usernameRef = useRef() as MutableRefObject<HTMLInputElement>;
+  const passwordRef = useRef() as MutableRefObject<HTMLInputElement>;
   const currentAuthTitle = type === 'login' ? 'Войти' : 'Регистрация';
   return (
     <div className="container">
