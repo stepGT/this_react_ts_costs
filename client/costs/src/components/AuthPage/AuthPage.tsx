@@ -15,6 +15,13 @@ export const AuthPage = ({ type }: { type: 'login' | 'registration' }) => {
     const result = await AuthClient.login(username, password);
   };
 
+  const handleRegistration = async (username: string, password: string) => {
+    if (!username || !password) return;
+    if (password.length < 4) return;
+
+    const result = await AuthClient.registration(username, password);
+  };
+
   return (
     <div className="container">
       <h1>{currentAuthTitle}</h1>
@@ -29,7 +36,7 @@ export const AuthPage = ({ type }: { type: 'login' | 'registration' }) => {
           <input type="password" className="form-control" />
         </label>
 
-        <button className="btn btn-primary auth-btn">{ currentAuthTitle }</button>
+        <button className="btn btn-primary auth-btn">{currentAuthTitle}</button>
       </form>
       {type === 'login' ? (
         <div>

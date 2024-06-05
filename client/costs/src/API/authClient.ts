@@ -17,4 +17,19 @@ export class AuthClient {
       console.log(error);
     }
   }
+
+  static async registration(username: string, password: string) {
+    try {
+      const result = await API.post('/auth/registration', { username, password });
+
+      if (result.status === 201) {
+        setAuth(false);
+        return true;
+      }
+
+      return false;
+    } catch (error) {
+      console.log(error);
+    }
+  }
 }
