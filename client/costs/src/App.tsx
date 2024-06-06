@@ -4,15 +4,19 @@ import { Navigate, Route, BrowserRouter as Router, Routes } from 'react-router-d
 import { AuthPage } from './components/AuthPage/AuthPage';
 import { Header } from './components/Header';
 import { $auth } from './context/auth';
+import { $alert } from './context/alert';
+import { Alert } from './components/Alert/Alert';
 
 const App = () => {
   const isLoggedIn = useUnit($auth);
+  const alert = useUnit($alert);
 
   useEffect(() => {}, []);
 
   return (
     <div className="App">
       <Header />
+      {alert.alertText && <Alert props={alert} />}
       <Router>
         <Routes>
           <Route
