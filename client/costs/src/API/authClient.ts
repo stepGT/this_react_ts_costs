@@ -1,4 +1,4 @@
-﻿import { setAuth } from '../context/auth';
+﻿import { setAuth, setUsername } from '../context/auth';
 import API from './axiosClient';
 
 export class AuthClient {
@@ -8,6 +8,7 @@ export class AuthClient {
 
       if (result.status === 200) {
         setAuth(true);
+        setUsername(result.data.username);
         localStorage.setItem('auth', JSON.stringify(result.data));
         return true;
       }
