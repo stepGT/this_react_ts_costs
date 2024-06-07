@@ -6,6 +6,7 @@ import { Header } from './components/Header';
 import { $auth } from './context/auth';
 import { $alert } from './context/alert';
 import { Alert } from './components/Alert/Alert';
+import { CostsPage } from './components/CostsPage/CostsPage';
 
 const App = () => {
   const isLoggedIn = useUnit($auth);
@@ -31,7 +32,7 @@ const App = () => {
             path="/registration"
             element={isLoggedIn ? <Navigate to="/costs" /> : <AuthPage type="registration" />}
           />
-          <Route path="/costs" element={isLoggedIn ? <h1>COSTS</h1> : <Navigate to="/login" />} />
+          <Route path="/costs" element={isLoggedIn ? <CostsPage /> : <Navigate to="/login" />} />
         </Routes>
       </Router>
     </div>
