@@ -22,3 +22,12 @@ export interface ICost {
   date: Date | string;
   _id?: number | string;
 }
+
+export interface IBaseEffectArgs {
+  url: string;
+  token: string;
+}
+
+export interface ICreateCost extends IBaseEffectArgs {
+  cost: ICost;
+}
