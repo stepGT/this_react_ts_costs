@@ -31,3 +31,7 @@ export interface IBaseEffectArgs {
 export interface ICreateCost extends IBaseEffectArgs {
   cost: ICost;
 }
+
+export interface IRefreshToken extends IBaseEffectArgs {
+  username: string;
+}
