@@ -2,6 +2,7 @@
 import API from './axiosClient';
 import { IBaseEffectArgs, ICreateCost, IRefreshToken } from '../types';
 import { removeUser } from '../utils/auth';
+import { handleAxiosError } from '../utils/errors';
 
 export const createCostFx = createEffect(async ({ url, cost, token }: ICreateCost) => {
   try {
@@ -23,7 +24,7 @@ export const getCostsFx = createEffect(async ({ url, token }: IBaseEffectArgs) =
 
     return data;
   } catch (error) {
-    console.log(error);
+    handleAxiosError(error, { type: 'get' });
   }
 });
 
