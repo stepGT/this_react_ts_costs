@@ -14,7 +14,7 @@ export const createCostFx = createEffect(async ({ url, cost, token }: ICreateCos
 
     return data;
   } catch (error) {
-    console.log(error);
+    handleAxiosError(error, { type: 'create', createCost: { cost } });
   }
 });
 

@@ -1,8 +1,8 @@
 ﻿import { AxiosError } from 'axios';
-import { deleteCostFx, getCostsFx, refreshTokenFx } from '../API/costsClient';
-import { IHandleAxiosErrorPayload } from '../types';
+import { createCostFx, deleteCostFx, getCostsFx, refreshTokenFx } from '../API/costsClient';
+import { ICost, IHandleAxiosErrorPayload } from '../types';
 import { getAuthDataFromLS, handleAlertMessage, removeUser } from './auth';
-import { setCosts } from '../context/index';
+import { createCost, setCosts } from '../context/index';
 
 export const handleAxiosError = async (
   error: unknown,
@@ -39,6 +39,18 @@ export const handleAxiosError = async (
               token: authData.access_token,
               id: payloadData.deleteCost?.id as string,
             });
+            break;
+          case 'create':
+            const cost = await createCostFx({
+              url: '/cost',
+              token: authData.access_token,
+              cost: { ...payloadData.createCost?.cost } as ICost,
+            });
+
+            if (!cost) return;
+
+            createCost(cost);
+            handleAlertMessage({ alertText: 'Успешно создано', alertStatus: 'success' });
             break;
           default:
             break;
