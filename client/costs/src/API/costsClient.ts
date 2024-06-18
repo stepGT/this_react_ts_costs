@@ -1,6 +1,6 @@
 ﻿import { createEffect } from 'effector';
 import API from './axiosClient';
-import { IBaseEffectArgs, ICreateCost, IRefreshToken } from '../types';
+import { IBaseEffectArgs, ICreateCost, IDeleteCost, IRefreshToken } from '../types';
 import { removeUser } from '../utils/auth';
 import { handleAxiosError } from '../utils/errors';
 
@@ -45,4 +45,12 @@ export const refreshTokenFx = createEffect(async ({ url, token, username }: IRef
       removeUser();
     }
   } catch (error) {}
+});
+
+export const deleteCostFx = createEffect(async ({ url, token, id }: IDeleteCost) => {
+  try {
+      await API.delete(`${url}/${id}`, { headers: { 'Authorization': `Bearer ${token}` } });
+  } catch (error) {
+      handleAxiosError(error, { type: 'delete', deleteCost: { id } });
+  }
 });
