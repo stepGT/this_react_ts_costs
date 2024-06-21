@@ -4,6 +4,18 @@ import { ICost } from '../types';
 const handleRemoveCost = (costs: ICost[], id: string | number) =>
   costs.filter((cost) => cost._id !== id);
 
+const handleUpdateCost = (costs: ICost[], id: string | number, payload: Partial<ICost>) =>
+  costs.map((cost) => {
+    if (cost._id === id) {
+      return {
+        ...cost,
+        ...payload,
+      };
+    }
+
+    return cost;
+  });
+
 const costs = createDomain();
 
 export const setCosts = costs.createEvent<ICost[]>();
@@ -17,4 +29,11 @@ export const $costs = costs
   .createStore<ICost[]>([])
   .on(createCost, (state, cost) => [...state, cost])
   .on(setCosts, (_, costs) => costs)
-  .on(removeCost, (state, id) => [...handleRemoveCost(state, id)]);
+  .on(removeCost, (state, id) => [...handleRemoveCost(state, id)])
+  .on(updatedCost, (state, cost) => [
+    ...handleUpdateCost(state, cost._id as string, {
+      text: cost.text,
+      price: cost.price,
+      date: cost.date,
+    }),
+  ]);
