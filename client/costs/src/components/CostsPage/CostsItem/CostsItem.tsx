@@ -11,6 +11,16 @@ export const CostsItem = ({ cost, index }: ICostsItemProps) => {
   const [edit, setEdit] = useState(false);
   const [editSpinner, setEditSpinner] = useState(false);
   const [deleteSpinner, setDeleteSpinner] = useState(false);
+  const [newText, setNewText] = useState(cost.text);
+  const [newPrice, setNewPrice] = useState<string | number>(cost.price);
+  const [newDate, setNewDate] = useState(cost.date);
+
+  const handleChangeText = (event: React.ChangeEvent<HTMLInputElement>) =>
+    setNewText(event.target.value);
+  const handleChangePrice = (event: React.ChangeEvent<HTMLInputElement>) =>
+    setNewPrice(event.target.value);
+  const handleChangeDate = (event: React.ChangeEvent<HTMLInputElement>) =>
+    setNewDate(event.target.value);
 
   const allowEditCost = () => setEdit(true);
 
@@ -41,19 +51,34 @@ export const CostsItem = ({ cost, index }: ICostsItemProps) => {
       <div className="cost-item-left">
         <span>{index} Магазин</span>
         {edit ? (
-          <input type="text" className="form-control cost-item__shop-input" />
+          <input
+            onChange={handleChangeText}
+            value={newText}
+            type="text"
+            className="form-control cost-item__shop-input"
+          />
         ) : (
           <span> "{cost.text}"</span>
         )}
         {edit ? (
-          <input type="date" className="form-control cost-item__date-input" />
+          <input
+            onChange={handleChangeDate}
+            value={new Date(newDate).toISOString().split('T')[0]}
+            type="date"
+            className="form-control cost-item__date-input"
+          />
         ) : (
           <span className="cost-date">Дата {formatDate(cost.date as string)}</span>
         )}
       </div>
       <div className="cost-item-right d-flex align-items-center">
         {edit ? (
-          <input type="text" className="form-control cost-item__price-input" />
+          <input
+            onChange={handleChangePrice}
+            value={newPrice}
+            type="text"
+            className="form-control cost-item__price-input"
+          />
         ) : (
           <span style={{ marginRight: '10px' }}>Сумма {cost.price}</span>
         )}
