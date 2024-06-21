@@ -4,6 +4,7 @@ import { getAuthDataFromLS, handleAlertMessage } from '../../../utils/auth';
 import { removeCost } from '../../../context';
 import { deleteCostFx } from '../../../API/costsClient';
 import { Spinner } from '../../Spinner/Spinner';
+import { formatDate } from '../../../utils/arrayUtils';
 
 export const CostsItem = ({ cost, index }: ICostsItemProps) => {
   const [deleteSpinner, setDeleteSpinner] = useState(false);
@@ -30,7 +31,7 @@ export const CostsItem = ({ cost, index }: ICostsItemProps) => {
       <div className="cost-item-left">
         <span>{index} Магазин</span>
         <span>"{cost.text}"</span>
-        <span className="cost-date">Дата "{cost.date as string}"</span>
+        <span className="cost-date">Дата "{formatDate(cost.date as string)}"</span>
       </div>
       <div className="cost-item-right d-flex align-items-center">
         <span style={{ marginRight: '10px' }}>Сумма {cost.price}</span>
