@@ -1,7 +1,8 @@
 ﻿import { useUnit } from 'effector-react';
-import { $username, $auth } from '../context/auth';
-import { useTheme } from '../hooks';
-import { removeUser } from '../utils/auth';
+import { $username, $auth } from '../../context/auth';
+import { useTheme } from '../../hooks';
+import { removeUser } from '../../utils/auth';
+import './styles.css';
 
 export const Header = () => {
   const userName = useUnit($username);

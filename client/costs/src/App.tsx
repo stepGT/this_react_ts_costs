@@ -2,7 +2,7 @@ import { useUnit } from 'effector-react';
 import { useEffect } from 'react';
 import { Navigate, Route, BrowserRouter as Router, Routes } from 'react-router-dom';
 import { AuthPage } from './components/AuthPage/AuthPage';
-import { Header } from './components/Header';
+import { Header } from './components/Header/Header';
 import { $auth, setAuth, setUsername } from './context/auth';
 import { $alert } from './context/alert';
 import { Alert } from './components/Alert/Alert';
