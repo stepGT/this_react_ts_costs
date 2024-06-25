@@ -1,8 +1,14 @@
 ﻿import { AxiosError } from 'axios';
-import { createCostFx, deleteCostFx, getCostsFx, refreshTokenFx } from '../API/costsClient';
+import {
+  createCostFx,
+  deleteCostFx,
+  getCostsFx,
+  refreshTokenFx,
+  updateCostFx,
+} from '../API/costsClient';
 import { ICost, IHandleAxiosErrorPayload } from '../types';
 import { getAuthDataFromLS, handleAlertMessage, removeUser } from './auth';
-import { createCost, setCosts } from '../context/index';
+import { createCost, setCosts, updatedCost } from '../context/index';
 
 export const handleAxiosError = async (
   error: unknown,
@@ -51,6 +57,19 @@ export const handleAxiosError = async (
 
             createCost(cost);
             handleAlertMessage({ alertText: 'Успешно создано', alertStatus: 'success' });
+            break;
+          case 'update':
+            const editedCost = await updateCostFx({
+              url: '/cost',
+              token: authData.access_token,
+              cost: { ...payloadData.updateCost?.cost } as ICost,
+              id: payloadData.updateCost?.id as string,
+            });
+
+            if (!editedCost) return;
+
+            updatedCost(editedCost);
+            handleAlertMessage({ alertText: 'Успешно отредактировано', alertStatus: 'success' });
             break;
           default:
             break;

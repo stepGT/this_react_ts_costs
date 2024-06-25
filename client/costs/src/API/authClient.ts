@@ -1,4 +1,5 @@
 ﻿import { setAuth, setUsername } from '../context/auth';
+import { handleAxiosError } from '../utils/errors';
 import API from './axiosClient';
 
 export class AuthClient {
@@ -15,7 +16,7 @@ export class AuthClient {
 
       return false;
     } catch (error) {
-      console.log(error);
+      handleAxiosError(error);
     }
   }
 
@@ -30,7 +31,7 @@ export class AuthClient {
 
       return false;
     } catch (error) {
-      console.log(error);
+      handleAxiosError(error);
     }
   }
 }
